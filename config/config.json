@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "KJSCE2018grad##",
+    "database": "Cloud_Projects",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "KJSCE2018grad##",
+    "database": "Cloud_Projects",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "KJSCE2018grad##",
+    "database": "Cloud_Projects",
+    "host": "127.0.0.1",
+    "dialect": "mysql"  
+  }
+}
