@@ -12,11 +12,12 @@ jobs:
 
     services:
       mysql:
-        image: mysql:latest
+
+        image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: "KJSCE2018grad##"
-          MYSQL_DATABASE: "Cloud_Projects"
-          MYSQL_ROOT_HOST: "%"
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: Cloud_Projects
+          # MYSQL_ROOT_HOST: "%"
           # MYSQL_ALLOW_EMPTY_PASSWORD : "yes"
           # MYSQL_DATABASE: "Cloud_Projects"
           # MYSQL_ROOT_HOST: "%"
@@ -39,7 +40,9 @@ jobs:
         ports:
           - 3306:3306
         
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=3
+
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
 
     steps:
       - name: Checkout code
@@ -53,12 +56,13 @@ jobs:
       - name: create and configure
         run: |
           touch .env
-          echo port= 3306 >> .env
-          echo host= localhost >> .env
-          echo dialect= mysql >> .env
-          echo user= root >> .env
-          echo password= KJSCE2018grad## >> .env
-          echo database= Cloud_Projects >> .env
+          echo DB_PORT=3306 >> .env
+          echo DB_HOST=localhost >> .env
+          echo DB_DIALECT=mysql >> .env
+          echo DB_USER=root >> .env
+          echo DB_PASSWORD=root >> .env
+          echo DB_DATABASE=Cloud_Projects >> .env
+          cat .env
       
       - name: Install dependencies
         run: npm install
