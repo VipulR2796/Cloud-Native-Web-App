@@ -9,6 +9,10 @@ const appRoutes = [
     {
         path: '/healthz',
         route: HealthZRoute
+    },
+    {
+        path: '*',
+        route: (req, res) => res.status(404).send() // Send 404 Not Found for unmatched routes
     }
 ]
 

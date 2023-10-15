@@ -1,6 +1,11 @@
 const mysql = require('mysql2');
 
 const checkHealth = (req, res) => {
+  
+  if(req.headers['content-length']){
+    return res.status(400).send();
+  }
+
   const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -19,6 +24,7 @@ const checkHealth = (req, res) => {
 
       return res.status(503).send();
     }
+
 
     console.log('Connected to database');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');

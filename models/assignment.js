@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
           unique: true
         },
-        name: Sequelize.STRING,
+        title: Sequelize.STRING,
         points: {
           type: Sequelize.INTEGER,
           validate: {
@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         deadline: Sequelize.DATE,
         created_by: {
-          type: Sequelize.UUID, // Assuming User id is UUID
+          type: Sequelize.UUID, 
           references: {
-            model: 'Users', // This should match the name of your User model
+            model: 'Users', 
             key: 'id'      
           }
         },

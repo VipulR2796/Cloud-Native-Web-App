@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: 
       - main
-      - feature
+      - bug-fix
 
 jobs:
   connect-remote:
@@ -17,26 +17,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: Cloud_Projects
-          # MYSQL_ROOT_HOST: "%"
-          # MYSQL_ALLOW_EMPTY_PASSWORD : "yes"
-          # MYSQL_DATABASE: "Cloud_Projects"
-          # MYSQL_ROOT_HOST: "%"
-
-          # DB_HOST: 127.0.0.1
-          # # DB_CONNECTION: mysql
-          # DB_DATABASE: "Cloud_Projects"
-          # DB_PORT: 3306
-          # DB_USER: root
-          # DB_PASSWORD: "KJSCE2018grad##"
-          # MYSQL_ROOT_PASSWORD: "KJSCE2018grad##"
-          # MYSQL_ROOT_PASSWORD: root
-          # MYSQL_DATABASE: "Cloud_Projects"
-          # MYSQL_ROOT_HOST: 127.0.0.1
-          # MYSQL_USER: root
-          # MYSQL_PASSWORD: "KJSCE2018grad##"
         
-        # run: |
-        #   sudo /etc/init.d/mysql start
         ports:
           - 3306:3306
         

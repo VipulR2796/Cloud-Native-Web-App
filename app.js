@@ -20,15 +20,8 @@ config();
 const db = require('./dbStartup')();
 const app = express();
 app.use(express.json());
-
 //route
 routes(app);
-
-
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
 
 module.exports = app;
 
