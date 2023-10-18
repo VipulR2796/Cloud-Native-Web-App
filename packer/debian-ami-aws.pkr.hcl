@@ -46,13 +46,13 @@ source "amazon-ebs" "debian12" {
 build {
   sources = ["source.amazon-ebs.debian12"]
 
-  //   provisioner "file" {
-  //     sources = [
-  //       "users.csv",
-  //       "webapp.zip"
-  //     ]
-  //     destination = "/tmp/"
-  //   }
+  provisioner "file" {
+    sources = [
+      "./data/users.csv",
+      "./webapp.tar.gz"
+    ]
+    destination = "/tmp/"
+  }
 
 
 }

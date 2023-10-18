@@ -1,0 +1,4 @@
+first_name,last_name,email,password
+super,man,super.man@example.com,abc123
+bat,man,bat.man@example.com,xyz456
+john,wick,john.wick@example.com,abc123

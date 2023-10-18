@@ -1,13 +1,11 @@
-name: Validate packer AMI
+name: Build custom AMI
 on:
-  pull_request:
-    branches:  
-    - main
-    - feature 
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
-    name: Validate packer AMI
+    name: Build packer AMI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,12 +14,20 @@ jobs:
       - name: Compress codebase
         run:  touch webapp.tar.gz && tar --exclude=webapp.tar.gz --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" -zcvf webapp.tar.gz .
 
+    #   - name: Install Dependencies and Build Application
+    #     run: |
+    #      npm install
+    #      npm run build
+
+    #   - name: Create Application Archive
+    #     run: tar -czvf webapp.tar.gz dist/
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_GIT_DEV_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_GIT_DEV_SECURITY_KEY }}
-          aws-region: 'us-east-1'
+            aws-access-key-id: ${{ secrets.AWS_GIT_DEV_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.AWS_GIT_DEV_SECURITY_KEY }}
+            aws-region: 'us-east-1'
 
       - name: Setup packer
         uses: hashicorp/setup-packer@main
@@ -32,11 +38,19 @@ jobs:
       - name: Run `packer init`
         id: init
         run: "packer init ./packer/debian-ami-aws.pkr.hcl"  
-
+  
       - name: Run 'packer format'
         id: packer-format
         run: "packer fmt -check=true -write=false -diff=true ./packer/debian-ami-aws.pkr.hcl"
-
+  
       - name: Run `packer validate`
         id: validate
         run: "packer validate ./packer/debian-ami-aws.pkr.hcl"
+
+      - name: Build `packer build`
+        id: build
+        run: "packer build ./packer/debian-ami-aws.pkr.hcl"
+      
+      
+      
+      
