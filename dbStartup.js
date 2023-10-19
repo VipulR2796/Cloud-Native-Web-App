@@ -52,7 +52,7 @@ module.exports = async function () {
     return hashedPassword;
   };
 
-  fs.createReadStream('/opt/user.csv')
+  fs.createReadStream('/opt/users.csv')
     .pipe(csv())
     .on('data', async (row) => {
       const hashedPassword = await hashPassword(row.password);

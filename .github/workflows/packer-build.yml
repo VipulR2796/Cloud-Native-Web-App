@@ -4,6 +4,49 @@ on:
     branches: [ "main" ]
 
 jobs:
+  integrationTest:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: Cloud_Projects
+        
+        ports:
+          - 3306:3306
+        
+
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.18.0'
+      
+      - name: create and configure
+        run: |
+          touch .env
+          echo DB_PORT=3306 >> .env
+          echo DB_HOST=localhost >> .env
+          echo DB_DIALECT=mysql >> .env
+          echo DB_USER=root >> .env
+          echo DB_PASSWORD=root >> .env
+          echo DB_DATABASE=Cloud_Projects >> .env
+          cat .env
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run tests
+        run: npm test
+  
   build:
     name: Build packer AMI
     runs-on: ubuntu-latest
@@ -13,14 +56,6 @@ jobs:
 
       - name: Compress codebase
         run:  touch webapp.tar.gz && tar --exclude=webapp.tar.gz --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" -zcvf webapp.tar.gz .
-
-    #   - name: Install Dependencies and Build Application
-    #     run: |
-    #      npm install
-    #      npm run build
-
-    #   - name: Create Application Archive
-    #     run: tar -czvf webapp.tar.gz dist/
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

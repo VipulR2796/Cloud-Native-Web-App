@@ -23,12 +23,12 @@ sudo systemctl start mariadb
 sudo systemctl enable mariadb
 
 # Secure MariaDB installation
-sudo mysql_secure_installation
+#sudo mysql_secure_installation
 
 # Access MySQL shell and create database and user
 sudo mysql -u root << EOF
 CREATE DATABASE Demo;
-GRANT ALL PRIVILEGES ON Demo.* TO 'root'@'localhost' IDENTIFIED BY 'password';"
+GRANT ALL PRIVILEGES ON Demo.* TO 'root'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 EOF
 
@@ -40,8 +40,11 @@ sudo ls -lrt
 mv /tmp/webapp.tar.gz /home/admin/webapp.tar.gz
 sudo mv /tmp/users.csv /opt/users.csv
 
-cd 
-unzip /home/admin/webapp.tar.gz
+cd /home/admin
+echo sudo unzip webapp.zip
+mkdir webapp
+tar -xvf webapp.tar.gz -C webapp/
+
 # Create .env file
 cd /home/admin/webapp
 touch .env

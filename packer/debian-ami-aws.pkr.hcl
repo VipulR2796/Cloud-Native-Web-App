@@ -20,7 +20,7 @@ variable "subnet_id" {
 source "amazon-ebs" "debian12" {
   ami_name      = "packer-debian-12-ami_${formatdate("YYYY-MM-DD_hh-mm-ss", timestamp())}"
   ami_users     = ["405204851463"]
-  profile       = "default"
+  profile       = "dev"
   instance_type = "t2.micro"
   region        = "${var.aws_region}"
   source_ami_filter {
@@ -52,6 +52,11 @@ build {
       "./webapp.tar.gz"
     ]
     destination = "/tmp/"
+  }
+
+  provisioner "shell" {
+
+    script = "./scripts/setup.sh"
   }
 
 

@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit",
-    "build": "webpack"
+    "test": "jest --forceExit"
   },
   "keywords": [],
   "author": "",
