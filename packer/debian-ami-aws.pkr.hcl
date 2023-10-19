@@ -17,10 +17,25 @@ variable "subnet_id" {
   default = "subnet-0619217d4d0d7732d"
 }
 
+variable "ami_users" {
+  type    = list(string)
+  default = ["405204851463"]
+}
+
+variable "aws_profile" {
+  type    = string
+  default = "default"
+}
+
+variable "ssh_username" {
+  type    = string
+  default = "admin"
+}
+
 source "amazon-ebs" "debian12" {
   ami_name      = "packer-debian-12-ami_${formatdate("YYYY-MM-DD_hh-mm-ss", timestamp())}"
-  ami_users     = ["405204851463"]
-  profile       = "dev"
+  ami_users     = var.ami_users
+  profile       = var.aws_profile
   instance_type = "t2.micro"
   region        = "${var.aws_region}"
   source_ami_filter {
@@ -33,7 +48,7 @@ source "amazon-ebs" "debian12" {
     owners      = ["amazon"]
   }
   subnet_id    = "${var.subnet_id}"
-  ssh_username = "admin"
+  ssh_username = var.ssh_username
 
   launch_block_device_mappings {
     device_name           = "/dev/xvda"
