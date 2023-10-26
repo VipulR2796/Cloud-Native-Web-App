@@ -24,7 +24,7 @@ variable "ami_users" {
 
 variable "aws_profile" {
   type    = string
-  default = "default"
+  default = "dev"
 }
 
 variable "ssh_username" {
@@ -64,14 +64,14 @@ build {
   provisioner "file" {
     sources = [
       "./data/users.csv",
-      "./webapp.tar.gz"
+      "./webapp.zip"
     ]
     destination = "/tmp/"
   }
 
   provisioner "shell" {
 
-    script = "./scripts/setup.sh"
+    script = "./scripts/install.sh"
   }
 
 

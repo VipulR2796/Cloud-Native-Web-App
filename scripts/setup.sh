@@ -32,6 +32,13 @@ GRANT ALL PRIVILEGES ON Demo.* TO 'root'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 EOF
 
+
+# Create group and user
+sudo groupadd csye6225
+sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
+
+
+
 # Navigate to webapp directory
 cd /tmp/
 echo "tmp contents: "
@@ -44,6 +51,10 @@ cd /home/admin
 echo sudo unzip webapp.zip
 mkdir webapp
 tar -xvf webapp.tar.gz -C webapp/
+
+# Modify permissions for /home/admin and webapp directory
+sudo chown -R csye6225:csye6225 /home/admin
+sudo chown -R csye6225:csye6225 /home/admin/webapp
 
 # Create .env file
 cd /home/admin/webapp

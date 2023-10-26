@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Compress codebase
-        run:  touch webapp.tar.gz && tar --exclude=webapp.tar.gz --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" -zcvf webapp.tar.gz .
+        run:  zip -r webapp.zip .  --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" .
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

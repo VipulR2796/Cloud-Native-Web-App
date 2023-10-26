@@ -12,7 +12,7 @@ async function getUserFromDatabase(email) {
 
   try {
     const [rows, fields] = await connection.execute(
-      'SELECT * FROM users WHERE email = ? LIMIT 1',
+      'SELECT * FROM Users WHERE email = ? LIMIT 1',
       [email]
     );
 
