@@ -4,10 +4,12 @@ ConditionPathExists=/opt/csye6225/
 After=network.target
 
 [Service]
+Type=simple
 User=csye6225
 Group=csye6225
 WorkingDirectory=/opt/csye6225/
-ExecStart=/opt/csye6225/server.js
+EnvironmentFile=/opt/csye6225/.env
+ExecStart=node /opt/csye6225/server.js
 Restart=always
 RestartSec=10
 TimeoutSec=15
