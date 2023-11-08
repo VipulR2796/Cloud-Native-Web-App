@@ -2,8 +2,9 @@ const express = require('express');
 const assignmentController = require( '../controllers/assignmentController');
 const authMiddleware = require( '../middleware/authMiddleware');
 
-const router = express.Router();
 
+const router = express.Router();
+// router.use(authMiddleware, loggerMiddleware);
 router.route('/:id')
     .get(authMiddleware, assignmentController.getAssignmentById)
     .put(authMiddleware, assignmentController.updateAssignmentById)

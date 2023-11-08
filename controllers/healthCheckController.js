@@ -1,7 +1,13 @@
 const mysql = require('mysql2');
+const SDC = require('statsd-client');
+const logger = require('../config/logger');
+const sdc = new SDC({host: process.env.STATSD_HOST, port: process.env.STATSD_PORT});
 
 const checkHealth = (req, res) => {
   
+  logger.info(`HTTP ${req.method} ${req.url} ${res.statusCode} Calling healthz get api`);
+  sdc.increment('endpoint.user.http.gethealthz');
+
   if(req.headers['content-length']){
     return res.status(400).send();
   }
@@ -21,7 +27,8 @@ const checkHealth = (req, res) => {
       res.set('X-Content-Type-Options', 'nosniff');
       res.set('Content-Length', '0');
       res.set('Date', new Date().toUTCString());
-
+      
+      logger.error(`HTTP ${req.method} ${req.url} ${res.statusCode} Error connecting to database`);
       return res.status(503).send();
     }
 

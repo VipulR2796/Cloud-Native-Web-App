@@ -7,6 +7,11 @@ const csv = require('csv-parser');
 const bcrypt = require('bcrypt');
 const authMiddleware = require('./middleware/authMiddleware');
 
+
+
+
+const lynx = require('lynx');
+
 const middlewares = require('./middleware/middlewares');
 const healthCheckRouter = require('./controllers/healthCheckController');
 const assignmentRouter = require('./controllers/assignmentController');
@@ -19,10 +24,12 @@ config();
 
 const db = require('./dbStartup')();
 const app = express();
+
+
 app.use(express.json());
+
 //route
 routes(app);
-
 module.exports = app;
 
 
