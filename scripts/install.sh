@@ -24,9 +24,9 @@ sudo mv /tmp/webapp.zip /opt/csye6225/webapp.zip
 sudo mv /tmp/users.csv /opt/csye6225/users.csv
 
 sudo mv /tmp/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/etc/
-sudo mkdir /var/log/webapp/
-sudo touch /var/log/webapp/webapp.log
-sudo chown csye6225:csye6225 /var/log/webapp/app.log
+sudo mkdir /var/log/
+sudo touch /var/log/webapp.log
+sudo chown csye6225:csye6225 /var/log/webapp.log
 # Change directory to /opt/
 cd /opt/csye6225
 
