@@ -64,7 +64,8 @@ build {
   provisioner "file" {
     sources = [
       "./data/users.csv",
-      "./webapp.zip"
+      "./webapp.zip",
+      "./cloudwatch-config.json"
     ]
     destination = "/tmp/"
   }

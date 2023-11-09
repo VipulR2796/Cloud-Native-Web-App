@@ -5,7 +5,7 @@ var winston = require('winston');
 var options = {
   file: {
     level: 'info',
-    filename: `./logs/webapp.log`,
+    filename: "/var/log/webapp/webapp.log",
     handleExceptions: true,
     json: true,
     maxsize: 5242880, // 5MB

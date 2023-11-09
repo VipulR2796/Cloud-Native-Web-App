@@ -11,6 +11,9 @@ sudo apt-get clean
 
 sudo apt install -y nodejs npm unzip
 
+wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
+sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
+
 #creting user group
 sudo groupadd csye6225
 sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
@@ -20,6 +23,10 @@ cd /tmp
 sudo mv /tmp/webapp.zip /opt/csye6225/webapp.zip
 sudo mv /tmp/users.csv /opt/csye6225/users.csv
 
+sudo mv /tmp/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/etc/
+sudo mkdir /var/log/webapp/
+sudo touch /var/log/webapp/webapp.log
+sudo chown csye6225:csye6225 /var/log/webapp/app.log
 # Change directory to /opt/
 cd /opt/csye6225
 
