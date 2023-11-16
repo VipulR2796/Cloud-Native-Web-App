@@ -54,6 +54,15 @@ const validateAssignment = (req) => {
   return null;
 };
 
+const patchAssignmentById = async (req, res) => {
+  sdc.increment('endpoint.http.patchAssignment');
+
+  logger.error(`HTTP ${req.method} ${req.url} 405 Method Not Allowed`);
+  return res.status(405).send();
+    
+};
+
+
 const createAssignment = async (req, res) => {
   sdc.increment('endpoint.http.createAssignment');
   try {
@@ -210,7 +219,7 @@ const getAssignmentById = async (req, res) => {
       await assignment.destroy();
       
       logger.info(`HTTP ${req.method} ${req.url} 200 Assignment Deleted`);
-      return res.json({ message: 'Assignment deleted successfully' });
+      return res.status(204).json({ message: 'Assignment deleted successfully' });
     } catch (error) {
       console.error(`Error deleting assignment with id ${id}:`, error);
       logger.error(`HTTP ${req.method} ${req.url} 500 Internal Server Error`);
@@ -223,5 +232,6 @@ module.exports = {
     getAssignments,
     getAssignmentById,
     updateAssignmentById,
-    deleteAssignmentById
+    deleteAssignmentById,
+    patchAssignmentById
 };

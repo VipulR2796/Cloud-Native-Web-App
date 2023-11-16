@@ -8,7 +8,8 @@ const router = express.Router();
 router.route('/:id')
     .get(authMiddleware, assignmentController.getAssignmentById)
     .put(authMiddleware, assignmentController.updateAssignmentById)
-    .delete(authMiddleware, assignmentController.deleteAssignmentById);
+    .delete(authMiddleware, assignmentController.deleteAssignmentById)
+    .patch(assignmentController.patchAssignmentById);
 router.route('/')
     .post(authMiddleware, assignmentController.createAssignment)
     .get(authMiddleware, assignmentController.getAssignments);
