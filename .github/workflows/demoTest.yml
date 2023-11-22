@@ -42,6 +42,9 @@ jobs:
           echo DB_USER=root >> .env
           echo DB_PASSWORD=root >> .env
           echo DB_DATABASE=Cloud_Projects >> .env
+          echo USERS_CSV_PATH=./data/users.csv >> .env
+          echo STATSD_HOST=localhost >> .env
+          echo STATSD_PORT=8125 >> .env
           cat .env
       
       - name: Install dependencies
