@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/')
     // use(middlewares.disallowNonGet)
-    .get(middlewares.disallowNonGet, healthCheckController.checkHealth)
+    // .get(middlewares.disallowNonGet, healthCheckController.checkHealth)
     .put(middlewares.disallowNonGet)
     .post(middlewares.disallowNonGet)
     .patch(middlewares.disallowNonGet)
