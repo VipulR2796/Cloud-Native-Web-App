@@ -6,7 +6,13 @@ const models = require('../models');
 const SDC = require('statsd-client');
 const logger = require('../config/logger');
 const sdc = new SDC({host: process.env.STATSD_HOST, port: process.env.STATSD_PORT});
+const AWS = require('aws-sdk')
 
+
+// Configure the AWS SDK with your desired region
+AWS.config.update({ region: process.env.AWS_REGION });
+const sns = new AWS.SNS();
+const snsARN = process.env.SNS_TOPIC_ARN;
 
 const validateAssignment = (req) => {
   const { title, points, num_of_attempts, deadline } = req.body;
@@ -227,11 +233,88 @@ const getAssignmentById = async (req, res) => {
     }
   };
 
+  const createSubmission = async (req, res) => {
+    sdc.increment('endpoint.http.createSubmission');
+    try {
+      const { id } = req.params;
+      
+      // Find the assignment in the database
+      const assignment = await models.Assignment.findOne({ where: { id } });
+  
+      if (!assignment) {
+        logger.error(`HTTP ${req.method} ${req.url} 404 Assignment Not Found`);
+        return res.status(404).json({ error: 'Assignment not found' });
+      }
+  
+      // Check if the assignment's deadline has passed
+      const currentDate = new Date();
+      if (assignment.deadline < currentDate) {
+        logger.error(`HTTP ${req.method} ${req.url} 400 Bad Request: Deadline has passed`);
+        return res.status(400).json({ error: 'Deadline has passed. Submission not allowed.' });
+      }
+  
+      // Check if the user has exceeded the number of attempts
+      console.log('assignment.num_of_attempts', assignment.num_of_attempts);
+      if (assignment.num_of_attempts <= 0) {
+        logger.error(`HTTP ${req.method} ${req.url} 400 Bad Request: No attempts left`);
+        return res.status(400).json({ error: 'No attempts left. Submission not allowed.' });
+      }
+  
+      
+  
+      // Create the submission
+      const { submission_url } = req.body;
+      const createdByUser = req.user;
+      // Fetch user's email based on created_by (user_id)
+      const userEmail = createdByUser ? createdByUser.email : '';
+
+    
+  
+      if (!createdByUser) {
+        logger.error(`HTTP ${req.method} ${req.url} 401 Unauthorized User`);
+        return res.sendStatus(401);
+      }
+
+      // Construct the message to be sent to SNS
+      const message = {
+        submission_url: submission_url,
+        user_email: userEmail,
+      };
+
+      // Decrement the number of attempts for the assignment
+      await assignment.decrement('num_of_attempts');
+  
+      const submission = await models.Submission.create({
+        assignment_id: id,
+        submission_url,
+        submission_date: new Date(),
+        submission_updated: new Date(),
+        created_by: createdByUser.id,
+      });
+
+      // Publish the message to the SNS topic
+      const params = {
+        Message: JSON.stringify(message), 
+        TopicArn: snsARN, 
+      };
+
+      await sns.publish(params).promise();
+  
+      logger.info(`HTTP ${req.method} ${req.url} 201 Submission Created`);
+      return res.status(201).json(submission);
+    } catch (error) {
+      console.error('Error creating submission:', error);
+      logger.error(`HTTP ${req.method} ${req.url} 500 Internal Server Error`);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
 module.exports = {
     createAssignment,
     getAssignments,
     getAssignmentById,
     updateAssignmentById,
     deleteAssignmentById,
-    patchAssignmentById
+    patchAssignmentById,
+    createSubmission
 };

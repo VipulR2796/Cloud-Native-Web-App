@@ -29,6 +29,7 @@ const models = {}; // Import your Sequelize models here
 
 models.User = require('./models/user')(sequelize);
 models.Assignment = require('./models/assignment')(sequelize);
+models.Submission = require('./models/submission')(sequelize);
 
 sequelize.sync();
 

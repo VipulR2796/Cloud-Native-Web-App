@@ -39,6 +39,13 @@ jobs:
           echo DB_USER=root >> .env
           echo DB_PASSWORD=root >> .env
           echo DB_DATABASE=Cloud_Projects >> .env
+          echo USERS_CSV_PATH=./data/users.csv >> .env
+          echo STATSD_HOST=localhost >> .env
+          echo STATSD_PORT=8125 >> .env
+          echo LOGS_FILE_PATH=./logs/webapp.log >> .env
+          echo SNS_TOPIC_ARN=${{ secrets.AWS_DEV_SNS_ARN }} >> .env
+          echo AWS_REGION="us-east-1" >> .env
+          echo AWS_PROFILE=dev >> .env
           cat .env
       
       - name: Install dependencies

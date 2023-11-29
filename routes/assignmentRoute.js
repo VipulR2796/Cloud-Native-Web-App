@@ -10,6 +10,9 @@ router.route('/:id')
     .put(authMiddleware, assignmentController.updateAssignmentById)
     .delete(authMiddleware, assignmentController.deleteAssignmentById)
     .patch(assignmentController.patchAssignmentById);
+    
+router.route('/:id/submission')
+    .post(authMiddleware, assignmentController.createSubmission);
 router.route('/')
     .post(authMiddleware, assignmentController.createAssignment)
     .get(authMiddleware, assignmentController.getAssignments);
