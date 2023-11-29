@@ -275,11 +275,7 @@ const getAssignmentById = async (req, res) => {
         return res.sendStatus(401);
       }
 
-      // Construct the message to be sent to SNS
-      const message = {
-        submission_url: submission_url,
-        user_email: userEmail,
-      };
+      
 
       // Decrement the number of attempts for the assignment
       await assignment.decrement('num_of_attempts');
@@ -291,6 +287,16 @@ const getAssignmentById = async (req, res) => {
         submission_updated: new Date(),
         created_by: createdByUser.id,
       });
+
+      // Construct the message to be sent to SNS
+      const message = {
+        submission_url: submission_url,
+        user_email: userEmail,
+        assignment_id: assignment.id,
+        submission_id: submission.id,
+        attempts_left: assignment.num_of_attempts,
+        
+      };
 
       // Publish the message to the SNS topic
       const params = {
