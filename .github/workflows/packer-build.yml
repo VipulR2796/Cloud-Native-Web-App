@@ -61,15 +61,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Compress codebase
-      #   run:  zip -r webapp.zip .  --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" .
+      - name: Compress codebase
+        run:  zip -r webapp.zip .  --exclude='.git' --exclude='.github' --exclude='.vscode' --exclude='node_modules' --exclude='logs' --exclude="package-lock.json" --exclude=".env" .
         
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_GIT_DEV_ACCESS_KEY }}
-      #     aws-secret-access-key: ${{ secrets.AWS_GIT_DEV_SECURITY_KEY }}
-      #     aws-region: 'us-east-1'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_GIT_DEV_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_GIT_DEV_SECURITY_KEY }}
+          aws-region: 'us-east-1'
 
       - name: Setup packer
         uses: hashicorp/setup-packer@main
