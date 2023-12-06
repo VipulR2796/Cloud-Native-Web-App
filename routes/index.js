@@ -2,7 +2,7 @@ const AssignmentRoute = require('./assignmentRoute');
 const HealthZRoute = require('./healthZRoute');
 const appRoutes = [
     {
-        path : '/v2/assignments',
+        path : '/v3/assignments',
         route: AssignmentRoute
 
     },
